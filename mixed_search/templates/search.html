@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - {{ query }}</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container">
+    <form action="search" method="get">
+        <input type="text" name="search_param" class="form-control"
+               placeholder="Search">
+        <button type="submit" class="btn btn-primary center-block">Transfer
+            cash
+        </button>
+    </form>
+</div>
+<hr>
+<div class="container">
+    {% for item in result %}
+        <div class="panel panel-default">
+            <a href="{{ item[5] + item[2] }}" target="_blank">
+                <div class="panel-heading">
+                    {{ item[1] + ' - ' + item[3] +  ' (' + item[7]|replace('\"','')|replace('[','')|replace(']','')|replace('\'','')+ ')' }}
+                </div>
+            </a>
+            <div class="panel-body">
+                {{ item[6][0:1000] }}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</body>
+</html>

@@ -56,9 +56,6 @@ class CrawlerType0(BaseCrawler):
 
         while True:
 
-            print('\n\n\n\n\n--------------------Starting New Crawl with {'
-                  '0}--------------------'.format(self.name))
-
             self.task_queue = Queue()
 
             for url in self.url_list:
@@ -197,8 +194,6 @@ class CrawlerType1(BaseCrawler):
 
         thread_dict = {}
         for n in range(1, self.number_of_threads + 1):
-            print('\n\n\n\n\n--------------------Starting New Crawl with {'
-                  '0}--------------------'.format(self.name))
             temp_thread = Thread(target=self.threader, args=(n,))
             thread_dict[n] = temp_thread
             temp_thread.start()

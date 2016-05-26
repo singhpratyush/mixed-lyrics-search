@@ -20,7 +20,7 @@ def search():
 
 if __name__ == '__main__':
     print('Starting Crawlers')
-    # start_crawlers()
+    start_crawlers()
     print('Starting indexer')
     full_index()
     start_indexer()

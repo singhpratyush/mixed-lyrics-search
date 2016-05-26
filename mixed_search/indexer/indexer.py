@@ -74,7 +74,7 @@ def index_latest():
     conn, cur = get_connection()
     cur.execute(sql)
     result = cur.fetchall()
-    print('Indexing {1} new songs.'.format(len(result)))
+    print('Indexing {0} new songs.'.format(len(result)))
     conn.close()
     Indexer().add_multiple(result)
 

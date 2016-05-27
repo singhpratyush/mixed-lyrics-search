@@ -30,6 +30,19 @@
     </form>
 </div>
 
+<h3>
+<div class="container text-right">
+    {% if not prev == None %}
+        <a href={{ 'search?search_param=' + query + '&page=' + prev }}>&lt;</a>
+    {% else %}
+        &lt
+    {% endif %}
+    {{ ' ' + page + ' ' }}
+    <a href={{ 'search?search_param=' + query + '&page=' + next }}>&gt;</a>
+</div>
+</h3>
+
+
 <div class="container">
     {% for item in result %}
         <div class="panel panel-default">
@@ -44,5 +57,22 @@
         </div>
     {% endfor %}
 </div>
+
+<h3>
+<div class="container text-right">
+    {% if not prev == None %}
+        <a href={{ 'search?search_param=' + query + '&page=' + prev }}>&lt;</a>
+    {% else %}
+        &lt
+    {% endif %}
+    {{ ' ' + page + ' ' }}
+    <a href={{ 'search?search_param=' + query + '&page=' + next }}>&gt;</a>
+</div>
+</h3>
+
+<div class="modal-footer">
+    Find us on <a href="https://github.com/singh-pratyush96/mixed-lyrics-search" target="_blank">Github</a>
+</div>
+
 </body>
 </html>

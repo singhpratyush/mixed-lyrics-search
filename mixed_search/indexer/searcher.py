@@ -19,8 +19,7 @@ def search(parameter, page=0):
     enquire = xapian.Enquire(db)
     enquire.set_query(qry)
 
-    offset = 10 * page
-    results = enquire.get_mset(page*0, 10)
+    results = enquire.get_mset(page*10, 10)
 
     result_set = []
 

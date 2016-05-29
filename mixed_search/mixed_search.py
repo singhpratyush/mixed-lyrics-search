@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect
 from crawler.start_crawler import start_crawlers
 from indexer.indexer import start_indexer, full_index
 from indexer.searcher import search as search_index
+from urllib.parse import quote
 
 app = Flask(__name__)
 
@@ -13,14 +14,14 @@ def home():
 
 @app.route('/search', methods=['GET'])
 def search():
+    param = request.args.get('search_param')
+    if param is None:
+        return redirect('/')
     page = request.args.get('page')
     if page is None:
         page = 0
     else:
         page = int(page)
-    param = request.args.get('search_param')
-    if param is None:
-        return redirect('/')
     result = search_index(param, page=page)
     prev = page - 1
     if prev < 0:
@@ -28,6 +29,7 @@ def search():
     else:
         prev = str(prev)
     nxt = str(page + 1)
+    param = quote(param)
     return render_template(
         'search.html',
         query=param,
@@ -40,9 +42,9 @@ def search():
 
 if __name__ == '__main__':
     print('Starting Crawlers')
-    #start_crawlers()
+    start_crawlers()
     print('Starting indexer')
-    #full_index()
+    full_index()
     start_indexer()
     print('Starting application')
     app.run()

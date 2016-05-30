@@ -14,25 +14,36 @@ def home():
 
 @app.route('/search', methods=['GET'])
 def search():
+
     param = request.args.get('search_param')
     if param is None:
         return redirect('/')
+
     page = request.args.get('page')
     if page is None:
         page = 0
     else:
         page = int(page)
+
+    search_type = request.args.get('type')
+    if search_type != 'all':
+        param = """{0}:\"{1}\"""".format(
+            search_type,
+            param
+        )
     result = search_index(param, page=page)
+
     prev = page - 1
     if prev < 0:
         prev = None
     else:
         prev = str(prev)
     nxt = str(page + 1)
-    param = quote(param)
+
+
     return render_template(
         'search.html',
-        query=param,
+        query=quote(param),
         result=result,
         page=str(page),
         prev=prev,
@@ -42,7 +53,7 @@ def search():
 
 if __name__ == '__main__':
     print('Starting Crawlers')
-    start_crawlers()
+    # start_crawlers()
     print('Starting indexer')
     full_index()
     start_indexer()

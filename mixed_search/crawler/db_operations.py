@@ -221,7 +221,8 @@ def exists_song(start_url, url):
 
 
 def get_song_by_id(_id):
-    sql = 'select * from songs where id=%s;'
+    sql = 'select id, song, song_url, movie, movie_url, start_url, lyrics, ' \
+          'singers, director, lyricist from songs where id=%s;'
     conn, cur = get_connection()
 
     cur.execute(

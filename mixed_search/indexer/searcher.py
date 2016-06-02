@@ -2,7 +2,7 @@ import xapian
 from crawler.db_operations import get_song_by_id
 
 
-def search(parameter, page=0):
+def search(parameter, page=0, number=10):
     db = xapian.Database('db')
 
     qp = xapian.QueryParser()
@@ -19,7 +19,7 @@ def search(parameter, page=0):
     enquire = xapian.Enquire(db)
     enquire.set_query(qry)
 
-    results = enquire.get_mset(page*10, 10)
+    results = enquire.get_mset(page*number, number)
 
     result_set = []
 

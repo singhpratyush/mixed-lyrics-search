@@ -103,7 +103,16 @@ class CrawlerType0(BaseCrawler):
             return
 
         for song_url, song in song_with_url:
-            song_html = ''
+
+            if db_operations.exists_song(self.start_url, song_url):
+                print_util.print_info(
+                    '{0} -> Song {1} already exists. Skipping.'.format(
+                        thread_id,
+                        song
+                    )
+                )
+                return
+
             song_url_ = self.start_url + song_url
             success, song_html = open_request(thread_id, song_url_)
 

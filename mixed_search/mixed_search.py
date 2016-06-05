@@ -1,9 +1,10 @@
+from json import dumps
+from urllib.parse import quote
+
 from flask import Flask, request, render_template, redirect
-from crawler.start_crawler import start_crawlers
+
 from indexer.indexer import start_indexer, full_index
 from indexer.searcher import search as search_index
-from urllib.parse import quote
-from json import dumps
 
 app = Flask(__name__)
 
@@ -123,7 +124,7 @@ if __name__ == '__main__':
     print('Starting Crawlers')
     # start_crawlers()
     print('Starting indexer')
-    # full_index()
+    full_index()
     start_indexer()
     print('Starting application')
     app.run()

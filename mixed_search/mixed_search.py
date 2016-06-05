@@ -101,11 +101,21 @@ def search():
 
     return render_template(
         'search.html',
+        title=param,
         query=quote(param),
         result=result,
         page=str(page),
         prev=prev,
         next=nxt
+    )
+
+
+@app.route('/redir', methods=['GET'])
+def redirect():
+    redirect_url = request.args.get('redirect_url')
+    return render_template(
+        'redirect.html',
+        url=redirect_url
     )
 
 

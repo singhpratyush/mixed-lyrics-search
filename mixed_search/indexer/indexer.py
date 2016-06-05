@@ -65,12 +65,15 @@ def configure(name):
     ).replace(
         ',',
         ' '
+    ).replace(
+        '\n',
+        ''
     )
 
 
 def index_latest():
     sql = 'select * from songs where ' \
-          'EXTRACT(\'epoch\' from age(CURRENT_TIMESTAMP,last_updated))/60 < 30;'
+          'EXTRACT(\'epoch\' from age(CURRENT_TIMESTAMP,last_updated))/60 < 35;'
     conn, cur = get_connection()
     cur.execute(sql)
     result = cur.fetchall()

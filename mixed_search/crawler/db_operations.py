@@ -232,4 +232,17 @@ def get_song_by_id(_id):
     result = cur.fetchall()[0]
 
     conn.close()
-    return result
+    str_result = {
+        'id': str(result[0]),
+        'song': result[1],
+        'song_url': result[2],
+        'movie': result[3],
+        'movie_url': result[4],
+        'start_url': result[5],
+        'lyrics': result[6],
+        'singers': result[7],
+        'director': result[8],
+        'lyricist': result[9]
+    }
+
+    return str_result

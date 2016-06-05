@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results - {{ query }}</title>
+    <title>Search Results - {{ title }}</title>
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="../static/css/style.css" rel="stylesheet" type="text/css">
 </head>
@@ -60,13 +60,13 @@
 <div class="container">
     {% for item in result %}
         <div class="panel panel-default">
-            <a href="{{ item[5] + item[2] }}" target="_blank">
+            <a href="{{ 'redir?param=' + query + '&id=' + item['id'] + '&redirect_url=' + item['start_url'] + item['song_url'] }}" target="_blank">
                 <div class="panel-heading">
-                    {{ item[1] + ' - ' + item[3] +  ' (' + item[7]|replace('\"','')|replace('[','')|replace(']','')|replace('\'','')+ ')' }}
+                    {{ item['song'] + ' - ' + item['movie'] +  ' (' + item['singers']|replace('\"','')|replace('[','')|replace(']','')|replace('\'','')|replace('\\n',',')+ ')' }}
                 </div>
             </a>
             <div class="panel-body">
-                {{ item[6][0:497] + '...' }}
+                {{ item['lyrics'][0:497] + '...' }}
             </div>
         </div>
     {% endfor %}

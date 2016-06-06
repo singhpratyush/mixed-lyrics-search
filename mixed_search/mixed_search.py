@@ -76,8 +76,19 @@ def api():
 def search():
 
     param = request.args.get('search_param')
-    if param is None:
+    artist = request.args.get('artist')
+    album = request.args.get('album')
+
+    if len(param + artist + album) == 0:
         return redirect('/')
+
+    query = ''
+    if len(param) > 0:
+        query = param + ' '
+    if len(album) > 0:
+        query += 'movie:"' + album + '" '
+    if len(artist) > 0:
+        query += 'singers:"' + artist + '"'
 
     page = request.args.get('page')
     if page is None:
@@ -91,7 +102,9 @@ def search():
             search_type,
             param
         )
-    result = search_index(param, page=page, number=10)
+
+    print(query)
+    result = search_index(query, page=page, number=10)
 
     prev = page - 1
     if prev < 0:
@@ -112,7 +125,7 @@ def search():
 
 
 @app.route('/redir', methods=['GET'])
-def redirect():
+def redir():
     redirect_url = request.args.get('redirect_url')
     return render_template(
         'redirect.html',
@@ -124,7 +137,7 @@ if __name__ == '__main__':
     print('Starting Crawlers')
     # start_crawlers()
     print('Starting indexer')
-    full_index()
+    # full_index()
     start_indexer()
     print('Starting application')
     app.run()

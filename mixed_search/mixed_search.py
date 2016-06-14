@@ -50,6 +50,7 @@ def api():
             json_dict['status'] = 1
             json_dict['error_message'] = 'Invalid page number'
             return j2s(json_dict)
+    json_dict['page'] = page
 
     number = request.args.get('number')
     if number is None:
@@ -61,6 +62,7 @@ def api():
             json_dict['status'] = 1
             json_dict['error_message'] = 'Invalid number of search results'
             return j2s(json_dict)
+    json_dict['number'] = number
 
     result = search_index(
         parameter=search_parameter,
@@ -153,9 +155,9 @@ def redir():
 
 if __name__ == '__main__':
     print('Starting Crawlers')
-    start_crawler()
+    # start_crawler()
     print('Starting indexer')
-    full_index()
+    # full_index()
     start_indexer()
     print('Starting application')
     global q_logger, lock

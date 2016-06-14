@@ -53,7 +53,7 @@
 <div class="container">
     {% for item in result %}
         <div class="panel panel-default">
-            <a href="{{ 'redir?param=' + query + '&id=' + item['id'] + '&redirect_url=' + item['start_url'] + item['song_url'] }}" target="_blank">
+            <a href="{{ 'redir?param=' + query + '&id=' + item['id'] + '&redirect_url=' + item['start_url'] + item['song_url'] + '&ids_presented=' + ids_presented + '&page=' + page }}" target="_blank">
                 <div class="panel-heading">
                     {{ item['song'] + ' - ' + item['movie'] +  ' (' + item['singers']|replace('\"','')|replace('[','')|replace(']','')|replace('\'','')|replace('\\n',',')+ ')' }}
                 </div>

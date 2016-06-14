@@ -2,9 +2,11 @@ from json import dumps
 from urllib.parse import quote
 
 from flask import Flask, request, render_template, redirect
+from threading import Lock
 
 from indexer.indexer import start_indexer, full_index
 from indexer.searcher import search as search_index
+from crawler import start_crawler
 
 app = Flask(__name__)
 
@@ -74,21 +76,9 @@ def api():
 
 @app.route('/search', methods=['GET'])
 def search():
-
     param = request.args.get('search_param')
     artist = request.args.get('artist')
     album = request.args.get('album')
-
-    if len(param + artist + album) == 0:
-        return redirect('/')
-
-    query = ''
-    if len(param) > 0:
-        query = param + ' '
-    if len(album) > 0:
-        query += 'movie:"' + album + '" '
-    if len(artist) > 0:
-        query += 'singers:"' + artist + '"'
 
     page = request.args.get('page')
     if page is None:
@@ -96,15 +86,26 @@ def search():
     else:
         page = int(page)
 
-    search_type = request.args.get('type')
-    if search_type != 'all':
-        param = """{0}:\"{1}\"""".format(
-            search_type,
-            param
-        )
+    if not (artist or album) is None:
+        if len(param + artist + album) == 0:
+            return redirect('/')
 
-    print(query)
+        query = ''
+        if len(param) > 0:
+            query = param + ' '
+        if len(album) > 0:
+            query += 'movie:"' + album + '" '
+        if len(artist) > 0:
+            query += 'singers:"' + artist + '"'
+    else:
+        query = param
+
     result = search_index(query, page=page, number=10)
+
+    ids_presented = ''
+    for x in result[:-1]:
+        ids_presented += x['id'] + ','
+    ids_presented += result[-1]['id']
 
     prev = page - 1
     if prev < 0:
@@ -116,17 +117,34 @@ def search():
     return render_template(
         'search.html',
         title=param,
-        query=quote(param),
+        query=quote(query),
         result=result,
         page=str(page),
         prev=prev,
-        next=nxt
+        next=nxt,
+        ids_presented=ids_presented
     )
 
 
 @app.route('/redir', methods=['GET'])
 def redir():
     redirect_url = request.args.get('redirect_url')
+
+    id = request.args.get('id')
+    param = request.args.get('param')
+    ids_presented = request.args.get('ids_presented')
+    page = request.args.get('page')
+
+    log_statement = '{0}::::{1}::::{2}::::{3}\n'.format(
+        param,
+        id,
+        ids_presented,
+        page
+    )
+
+    with lock:
+        q_logger.write(log_statement)
+
     return render_template(
         'redirect.html',
         url=redirect_url
@@ -135,9 +153,15 @@ def redir():
 
 if __name__ == '__main__':
     print('Starting Crawlers')
-    # start_crawlers()
+    start_crawler()
     print('Starting indexer')
-    # full_index()
+    full_index()
     start_indexer()
     print('Starting application')
-    app.run()
+    global q_logger, lock
+    q_logger = open('responses.txt', 'a')
+    lock = Lock()
+    try:
+        app.run()
+    except KeyboardInterrupt:
+        print('User interrupted')

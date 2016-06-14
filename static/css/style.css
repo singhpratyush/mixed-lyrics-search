@@ -1,0 +1,15 @@
+.white {
+    color: #FFFFFF;
+}
+
+.primary-background {
+    background-color: #FF3D00;
+}
+
+.high-padding {
+    padding: 20px;
+}
+
+.container {
+    font-family: monospace;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results - {{ title }}</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="high-padding primary-background">
+    <div>
+        <div class="primary-color white text-center">
+            <h1>Mixed Lyrics Search</h1>
+        </div>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 20px; margin-bottom: 40px;">
+    <form action="search" method="get">
+        <div class="row text-center">
+            <div class="col-sm-12 col-md-5 col-lg-5">
+                Search <input type="text" name="search_param"
+                              class="form-control">
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                Artist <input type="text" name="artist" class="form-control">
+            </div>
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                Album/Movie <input type="text" name="album"
+                                   class="form-control">
+            </div>
+            <div class="col-sm-12 col-md-1 col-lg-1">
+                <br/>
+                <button type="submit" class="btn btn-primary center-block">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<h3>
+    <div class="container text-right">
+        {% if not prev == None %}
+            <a href={{ 'search?search_param=' + query + '&page=' + prev }}>
+                &lt;</a>
+        {% else %}
+            &lt
+        {% endif %}
+        {{ ' ' + page + ' ' }}
+        <a href={{ 'search?search_param=' + query + '&page=' + next }}>&gt;</a>
+    </div>
+</h3>
+
+
+<div class="container">
+    {% for item in result %}
+        <div class="panel panel-default">
+            <a href="{{ 'redir?param=' + query + '&id=' + item['id'] + '&redirect_url=' + item['start_url'] + item['song_url'] + '&ids_presented=' + ids_presented + '&page=' + page }}"
+               target="_blank">
+                <div class="panel-heading">
+                    {{ item['song'] + ' - ' + item['movie'] +  ' (' + item['singers']|replace('\"','')|replace('[','')|replace(']','')|replace('\'','')|replace('\\n',',')+ ')' }}
+                </div>
+            </a>
+            <div class="panel-body">
+                {{ item['lyrics'][0:497] + '...' }}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<h3>
+    <div class="container text-right">
+        {% if not prev == None %}
+            <a href={{ 'search?search_param=' + query + '&page=' + prev }}>
+                &lt;</a>
+        {% else %}
+            &lt
+        {% endif %}
+        {{ ' ' + page + ' ' }}
+        <a href={{ 'search?search_param=' + query + '&page=' + next }}>&gt;</a>
+    </div>
+</h3>
+
+<div class="modal-footer">
+    Find us on <a href="https://github.com/singh-pratyush96/mixed-lyrics-search"
+                  target="_blank">Github</a>
+</div>
+
+</body>
+</html>

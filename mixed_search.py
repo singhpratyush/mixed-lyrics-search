@@ -4,7 +4,6 @@ from urllib.parse import quote
 
 from flask import Flask, request, render_template, redirect
 
-from indexer.indexer import start_indexer
 from indexer.searcher import search as search_index
 
 app = Flask(__name__)
@@ -178,6 +177,10 @@ if __name__ == '__main__':
     global q_logger, lock
     q_logger = open('responses.txt', 'a')
     lock = Lock()
+
+    from crawler import start_crawlers
+
+    start_crawlers.start()
 
     try:
         app.run(host='0.0.0.0', port='5000')  # Start application

@@ -1,8 +1,7 @@
-import sys
 from re import findall, DOTALL
 from string import ascii_lowercase
 
-from base_crawler import CrawlerType0
+from crawler.base_crawler import CrawlerType0
 
 
 class SmritiCrawler(CrawlerType0):
@@ -90,8 +89,12 @@ def main():
             '/hindi-songs/movies-{0}'.format(element)
         )
 
-    crawler = SmritiCrawler('Smriti', 'http://smriti.com', urls,
-                            int(sys.argv[1]))
+    crawler = SmritiCrawler(
+        'Smriti',
+        'http://smriti.com',
+        urls,
+        4
+    )
 
     crawler.run()
 

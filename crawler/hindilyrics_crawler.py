@@ -1,13 +1,13 @@
-import sys
 from re import findall, DOTALL
 from string import ascii_lowercase
 
-from base_crawler import CrawlerType0
+from crawler.base_crawler import CrawlerType0
 
 
 class HindilyricsCrawler(CrawlerType0):
     def __init__(self, name, start_url, list_of_url, number_of_threads):
-        super().__init__(name, start_url, list_of_url, number_of_threads)
+        super().__init__(name, start_url, list_of_url, number_of_threads,
+                         max_err=10, delay_request=False)
 
     def get_movies_with_url(self, raw_html):
         return findall(r'<li>.*?\"(.*?)\">(.*?)<', raw_html)
@@ -94,7 +94,7 @@ def main():
         'hindilyrics-crawler',
         'http://www.hindilyrics.net',
         list_of_websites,
-        int(sys.argv[1])
+        4
     )
 
     crawler.run()

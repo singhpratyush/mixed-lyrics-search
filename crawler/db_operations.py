@@ -1,3 +1,5 @@
+from html import unescape
+
 from psycopg2 import connect
 
 
@@ -32,6 +34,13 @@ def create():
 
 def save(song, song_url, movie, movie_url, start_url, lyrics, singers,
          director, lyricist):
+    song, movie, lyrics, singers, director, lyricist = unescape(song), \
+                                                       unescape(movie), \
+                                                       unescape(lyrics), \
+                                                       unescape(str(singers)), \
+                                                       unescape(str(director)), \
+                                                       unescape(str(lyricist))
+
     sql = """SELECT id FROM songs WHERE song_url=%s AND start_url=%s;"""
 
     conn, cur = get_connection()
@@ -129,8 +138,8 @@ def is_old_movie(start_url, url):
     if cur.fetchall()[0][0] == 0:  # No such movie exists
         return False
 
-    sql = """SELECT EXTRACT('epoch' from age((SELECT last_updated FROM songs WHERE
- start_url=%s AND movie_url=%s LIMIT 1)))/60/60/24/30;"""
+    sql = """SELECT date_part('month', age((SELECT last_updated FROM songs WHERE
+ start_url=%s AND movie_url=%s LIMIT 1)));"""
 
     cur.execute(
         sql,
@@ -144,8 +153,8 @@ def is_old_movie(start_url, url):
     how_old = int(result[0][0])
     status = int(result[0][0]) >= 6
 
-    sql = """SELECT EXTRACT('epoch' from age((SELECT last_crawled FROM songs
-    WHERE start_url=%s AND movie_url=%s LIMIT 1)))/60/60/24;"""
+    sql = """SELECT date_part('days', age((SELECT last_crawled FROM songs
+    WHERE start_url=%s AND movie_url=%s LIMIT 1)));"""
 
     cur.execute(
         sql,

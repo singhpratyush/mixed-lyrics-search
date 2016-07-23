@@ -1,8 +1,7 @@
-import sys
 from re import findall, DOTALL
 from string import ascii_lowercase
 
-from base_crawler import CrawlerType0
+from crawler.base_crawler import CrawlerType0
 
 
 class LyricsMastiCrawler(CrawlerType0):
@@ -136,7 +135,7 @@ def main():
         'LyricsMasti Crawler',
         'http://www.lyricsmasti.com',
         list_of_websites,
-        int(sys.argv[1])
+        4
     )
 
     crawler.run()

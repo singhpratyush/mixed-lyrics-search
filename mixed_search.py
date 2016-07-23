@@ -119,7 +119,8 @@ def search():
     ids_presented = ''
     for x in result[:-1]:  # All but last result
         ids_presented += x['id'] + ','  # Seperate by comma
-    ids_presented += result[-1]['id']  # Append last one
+    if len(result) > 0:
+        ids_presented += result[-1]['id']
 
     # Set previous page number
     prev = page - 1
@@ -177,6 +178,7 @@ if __name__ == '__main__':
     global q_logger, lock
     q_logger = open('responses.txt', 'a')
     lock = Lock()
+
     try:
         app.run()  # Start application
     except KeyboardInterrupt:

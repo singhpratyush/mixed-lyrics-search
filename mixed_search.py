@@ -180,6 +180,6 @@ if __name__ == '__main__':
     lock = Lock()
 
     try:
-        app.run()  # Start application
+        app.run(host='0.0.0.0', port='5000')  # Start application
     except KeyboardInterrupt:
         print('User interrupted')

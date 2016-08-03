@@ -13,6 +13,10 @@ A search engine based on mixed script information retrieval.
 * [Flask](https://github.com/pallets/flask)
 * [Xapian](https://github.com/xapian/xapian) with Python bindings
 
+### Other Repos
+* [Android Application](https://github.com/bxute/MLS)
+* [Crawler](https://github.com/iiitv/lyrics-crawler)
+
 ### Developers
 * [Ankit Kumar](https://github.com/bxute)
 * [Avi Aryan](https://github.com/aviaryan)

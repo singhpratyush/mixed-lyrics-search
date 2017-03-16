@@ -2,6 +2,8 @@
 
 A search engine based on mixed script information retrieval.
 
+[![Code Climate](https://codeclimate.com/github/singhpratyush/mixed-lyrics-search/badges/gpa.svg)](https://codeclimate.com/github/singhpratyush/mixed-lyrics-search)
+
 ### Lyrics Sources
 * [AZ Lyrics](http://azlyrics.com)
 * [Hindi Lyrics](http://hindilyrics.net)
